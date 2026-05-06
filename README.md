@@ -10,6 +10,6 @@ docker logs kontener_pogoda
 # d) Sprawdzenie warstw oraz rozmiaru zbudowanego obrazu
 docker images lolmaddmanxlo/lab8_weather:v1
 
-rozmiar wyszedł 1.86MB
+rozmiar wyszedł 40kB
 
 docker history lolmaddmanxlo/lab8_weather:v1
