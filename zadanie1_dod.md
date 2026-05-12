@@ -1,6 +1,4 @@
-# 1. Zbudowany obraz kontenera zgodny z OCI zawierający aplikację opracowaną w części obowiązkowej
-# zadania (punkt nr 1), który jest przeznaczony na platformy sprzętowe: linux/arm64 oraz
-# linux/amd64.
+# 1. Zbudowany obraz kontenera zgodny z OCI zawierający aplikację opracowaną w części obowiązkowej zadania (punkt nr 1), który jest przeznaczony na platformy sprzętowe: linux/arm64 oraz linux/amd64.
 docker buildx create --name mybuilder --driver docker-container --use
 
 docker buildx inspect --bootstrap
