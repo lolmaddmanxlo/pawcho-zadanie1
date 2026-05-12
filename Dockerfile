@@ -1,31 +1,31 @@
-# ETAP 1 Budowanie i przygotowanie komponentów
-FROM golang:1.22-alpine AS builder
+# syntax=docker/dockerfile:1
+# rozszerzony frontend BuildKit
 
-# Instalacja UPX do kompresji oraz certyfikatow do HTTPS
-RUN apk add --no-cache upx ca-certificates
+# ETAP 1: Builder
+FROM alpine:latest AS builder
+
+# Instalacja narzędzi
+RUN apk add --no-cache gcc musl-dev upx git
 
 WORKDIR /app
-COPY server.go .
 
-# Kompilacja
-RUN CGO_ENABLED=0 GOOS=linux go build -trimpath -ldflags="-s -w" -o server server.go
+# Pobieranie kod bezpośrednio z GitHub przy użyciu tokenu przekazanego jako secret
+RUN --mount=type=secret,id=gh_token \
+    git clone https://$(cat /run/secrets/gh_token)@github.com/lolmaddmanxlo/pawcho-zadanie1.git .
 
-# Kompresja pliku wykonywalnego
-RUN upx --best --lzma server
+# Kompilacja statyczna
+RUN gcc -static -Os -s -ffunction-sections -fdata-sections -Wl,--gc-sections server.c -o server && \
+    upx --ultra-brute server
 
-# ETAP 2 Obraz finalny
+# Finalny obraz
 FROM scratch
 
+# Metadane
 LABEL org.opencontainers.image.authors="Maciej Łukasiewicz"
 
-# certyfikaty bezpieczeństwa dla żądań HTTPS
-COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
-
-# Kopia aplikacji
 COPY --from=builder /app/server /server
-
+USER 1001:1001
 EXPOSE 8080
-
 HEALTHCHECK --interval=30s --timeout=3s CMD ["/server", "-check"]
 
 CMD ["/server"]
