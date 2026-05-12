@@ -11,8 +11,7 @@
 #define PORT 8080
 #define AUTHOR "Maciej Łukasiewicz"
 
-// Funkcja pobierająca pogodę przez czyste gniazda TCP (HTTP port 80)
-// Brak bibliotek zewnętrznych = ekstremalnie mały rozmiar obrazu.
+// Funkcja pobierająca pogodę przez czyste gniazda TCP
 void get_weather(const char* city, char* result) {
     struct hostent *server;
     struct sockaddr_in serv_addr;
