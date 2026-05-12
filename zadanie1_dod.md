@@ -17,3 +17,4 @@ docker buildx build \
 
 docker buildx imagetools inspect lolmaddmanxlo/lab8-pogoda:v1-dod
 
+<img width="1044" height="456" alt="image" src="https://github.com/user-attachments/assets/7e726820-8366-48f5-b188-7d04bee4eeec" />
