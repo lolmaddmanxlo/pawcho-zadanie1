@@ -7,7 +7,7 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 
-// --- KONFIGURACJA---
+// KONFIGURACJA
 #define PORT 8080
 #define AUTHOR "Maciej Łukasiewicz"
 
@@ -60,12 +60,12 @@ int main(int argc, char *argv[]) {
         return 0;
     }
 
-    // --- LOGI STARTOWE (Punkt 1a) ---
+    // LOGI STARTOWE
     time_t now = time(NULL);
     char *date_str = ctime(&now);
 
     printf("========================================\n");
-    printf("Data uruchomienia: %s", date_str); // ctime dodaje znak nowej linii
+    printf("Data uruchomienia: %s", date_str);
     printf("Autor programu: %s\n", AUTHOR);
     printf("Serwer nasluchuje na porcie TCP: %d\n", PORT);
     printf("========================================\n");
@@ -73,7 +73,7 @@ int main(int argc, char *argv[]) {
     // Wymuszenie wypchnięcia bufora do logów Dockera
     fflush(stdout);
 
-    // --- KONFIGURACJA SERWERA ---
+    // KONFIGURACJA SERWERA
     int server_fd = socket(AF_INET, SOCK_STREAM, 0);
     int opt = 1;
     setsockopt(server_fd, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt));
@@ -94,10 +94,9 @@ int main(int argc, char *argv[]) {
         char response[2048];
         char weather_data[512] = {0};
 
-        // --- OBSŁUGA ŻĄDAŃ
+        // OBSŁUGA ŻĄDAŃ
         if (strstr(request_buffer, "GET /pogoda?miasto=")) {
             char city[50] = {0};
-            // Proste wycięcie nazwy miasta z URL
             char* start = strstr(request_buffer, "miasto=") + 7;
             char* end = strchr(start, ' ');
             if (end) *end = '\0';
